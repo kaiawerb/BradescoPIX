@@ -1,5 +1,9 @@
 @import "tailwindcss";
 @import "tw-animate-css";
+@import "@fontsource/roboto/300.css"; /* Light */
+@import "@fontsource/roboto/400.css"; /* Regular */
+@import "@fontsource/roboto/500.css"; /* Medium */
+@import "@fontsource/roboto/700.css"; /* Bold */
 
 @custom-variant dark (&:is(.dark *));
 
@@ -113,8 +117,17 @@
 @layer base {
   * {
     @apply border-border outline-ring/50;
+    font-family: "Roboto", sans-serif;
   }
   body {
     @apply bg-background text-foreground;
+  }
+
+  .bg-gradient-3 {
+    background: linear-gradient(46.42deg, #c37778 0%, #93367c 102.61%);
+  }
+
+  .bg-gradient-1 {
+    background: linear-gradient(45deg, #b81570 0%, #cc092f 100%);
   }
 }

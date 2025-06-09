@@ -25,10 +25,10 @@ import { Link } from "react-router-dom"
 
 function Home() {
   const actions = [
-    { label: "PIX", icon: Banknote },
-    { label: "Extrato", icon: Banknote },
-    { label: "Transf.", icon: Banknote },
-    { label: "CRÉDITO", icon: CreditCard },
+    { label: "PIX", icon: Banknote, to: "/pay" },
+    { label: "Extrato", icon: Banknote, to: "/complaints" },
+    { label: "Transf.", icon: Banknote, to: "/404" },
+    { label: "CRÉDITO", icon: CreditCard, to: "/404" },
   ]
 
   const chartData = [
@@ -86,16 +86,17 @@ function Home() {
             </Link>
             <Separator className="mt-7 opacity-50" />
             <div className="flex justify-between mt-7 mb-3">
-              {actions.map(({ label, icon: Icon }) => (
-                <div
+              {actions.map(({ label, icon: Icon, to }) => (
+                <Link
                   key={label}
+                  to={to}
                   className="flex flex-col cursor-pointer items-center gap-3 justify-center"
                 >
                   <div className="icon bg-white p-2 rounded-xl">
                     <Icon color="#B6657A" size={34} strokeWidth={1.5} />
                   </div>
                   <span className="text-xs uppercase">{label}</span>
-                </div>
+                </Link>
               ))}
             </div>
           </div>

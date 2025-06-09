@@ -4,6 +4,7 @@ import BankStatement from "./pages/BankStatement"
 import TabIcon from "./components/TabIcon"
 import Complaints from "./pages/Complaints"
 import Pay from "./pages/Pay"
+import NewPay from "./pages/NewPay"
 
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
         <Route path="/bankStatement" element={<BankStatement />} />
         <Route path="/complaints" element={<Complaints />} />
         <Route path="/pay" element={<Pay />} />
+        <Route path="/pay/new" element={<NewPay />} />
       </Routes>
     </main>
   )

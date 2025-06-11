@@ -15,9 +15,13 @@ function formatCurrency(value: string) {
   })
 }
 
-function EditableAmount() {
+interface EditableAmountProps {
+  value: string
+  onChange: (value: string) => void
+}
+
+function EditableAmount({ value, onChange }: EditableAmountProps) {
   const [isEditing, setIsEditing] = useState(false)
-  const [value, setValue] = useState("R$ 0,00")
   const inputRef = useRef<HTMLInputElement>(null)
 
   useEffect(() => {
@@ -28,14 +32,14 @@ function EditableAmount() {
   }, [isEditing])
 
   function handleBlur() {
-    setValue((current) => formatCurrency(current))
+    onChange(formatCurrency(value))
     setIsEditing(false)
   }
 
   function handleChange(e: React.ChangeEvent<HTMLInputElement>) {
     const val = e.target.value
     if (/^[\d.,]*$/.test(val)) {
-      setValue(val)
+      onChange(val)
     }
   }
 

@@ -9,6 +9,8 @@ import {
   CreditCard,
   EyeOff,
   Menu,
+  PiggyBank,
+  ShieldAlert,
 } from "lucide-react"
 
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
@@ -20,14 +22,16 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@/components/ui/chart"
-import TabIcon from "@/components/TabIcon"
+
 import { Link } from "react-router-dom"
+import { useEffect, useState } from "react"
+import axios from "axios"
 
 function Home() {
   const actions = [
     { label: "PIX", icon: Banknote, to: "/pay" },
-    { label: "Extrato", icon: Banknote, to: "/complaints" },
-    { label: "Transf.", icon: Banknote, to: "/404" },
+    { label: "Extrato", icon: PiggyBank, to: "/bankstatement" },
+    { label: "Denúncias", icon: ShieldAlert, to: "/complaints" },
     { label: "CRÉDITO", icon: CreditCard, to: "/404" },
   ]
 
@@ -46,6 +50,24 @@ function Home() {
     },
   } satisfies ChartConfig
 
+  type Usuario = {
+    saldo: number
+    name: string
+    id: number
+    nome: string
+    cpf: string
+    image?: string // se você quiser manter imagens no futuro
+  }
+
+  const [user, setUser] = useState<Usuario | null>(null)
+
+  useEffect(() => {
+    axios
+      .get("http://localhost:3001/usuarios/1")
+      .then((res) => setUser(res.data))
+      .catch((err) => console.error("Erro ao buscar usuário:", err))
+  }, [])
+
   return (
     <main className="bg-neutral-950 flex items-center justify-center pb-20">
       <div
@@ -59,7 +81,11 @@ function Home() {
               <AvatarImage src="https://github.com/shadcn.png" />
               <AvatarFallback>CN</AvatarFallback>
             </Avatar>
-            <span className="text-base">Olá, Sophia</span>
+            {user ? (
+              <span className="text-base">Olá, {user.nome}</span>
+            ) : (
+              <span className="text-base text-gray-400">Carregando...</span>
+            )}
           </div>
           <div className="flex gap-4">
             <Bell className="cursor-pointer" />
@@ -74,7 +100,16 @@ function Home() {
             <div className="flex justify-between items-center">
               <div className="flex flex-col">
                 <span className="text-base">Saldo disponível</span>
-                <h5 className="text-2xl">R$ 345.756,87</h5>
+                {user ? (
+                  <h5 className="text-2xl">
+                    {Number(user.saldo).toLocaleString("pt-BR", {
+                      style: "currency",
+                      currency: "BRL",
+                    })}
+                  </h5>
+                ) : (
+                  <h5 className="text-2xl">Carregando</h5>
+                )}
               </div>
               <ChevronRight className="cursor-pointer" size={24} />
             </div>
